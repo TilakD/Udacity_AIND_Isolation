@@ -170,7 +170,7 @@ class MinimaxPlayer(IsolationPlayer):
         # Return the best move from the last completed search iteration
         return best_move
 
-    def minimax(self, game, depth):
+    def minimax(self, game, depth, maximizing_player=True):
         """Implement depth-limited minimax search algorithm as described in
         the lectures.
 
