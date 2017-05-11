@@ -211,9 +211,40 @@ class MinimaxPlayer(IsolationPlayer):
         """
         if self.time_left() < self.TIMER_THRESHOLD:
             raise SearchTimeout()
+            
+        # Get legal moves for active player
+        legal_moves = game.get_legal_moves()
 
-        # TODO: finish this function!
-        raise NotImplementedError
+        # Game over terminal test
+        if not legal_moves:
+            # -inf or +inf from point of view of maximizing player
+            return game.utility(self), (-1, -1)
+
+        # Search depth reached terminal test
+        if depth == 0:
+            # Heuristic score from point of view of maximizing player
+            return self.score(game, self), (-1, -1)
+
+        best_move = None
+        if maximizing_player:
+            # Best for maximizing player is highest score
+            best_score = float("-inf")
+            for move in legal_moves:
+                # Forecast_move switches the active player
+                next_state = game.forecast_move(move)
+                score, _ = self.minimax(next_state, depth - 1, False)
+                if score > best_score:
+                    best_score, best_move = score, move
+        # Else minimizing player
+        else:
+            # Best for minimizing player is lowest score
+            best_score = float("inf")
+            for move in legal_moves:
+                next_state = game.forecast_move(move)
+                score, _ = self.minimax(next_state, depth - 1, True)
+                if score < best_score:
+                    best_score, best_move = score, move
+        return best_score, best_move
 
 
 class AlphaBetaPlayer(IsolationPlayer):
