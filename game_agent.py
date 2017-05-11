@@ -288,7 +288,7 @@ class AlphaBetaPlayer(IsolationPlayer):
         # TODO: finish this function!
         raise NotImplementedError
 
-    def alphabeta(self, game, depth, alpha=float("-inf"), beta=float("inf")):
+    def alphabeta(self, game, depth, alpha=float("-inf"), beta=float("inf"), maximizing_player=True):
         """Implement depth-limited minimax search with alpha-beta pruning as
         described in the lectures.
 
