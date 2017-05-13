@@ -170,7 +170,7 @@ class MinimaxPlayer(IsolationPlayer):
         # Return the best move from the last completed search iteration
         return best_move
 
-    def minimax(self, game, depth, maximizing_player=True):
+    def minimax(self, game, depth):
         """Implement depth-limited minimax search algorithm as described in
         the lectures.
 
@@ -192,10 +192,6 @@ class MinimaxPlayer(IsolationPlayer):
             Depth is an integer representing the maximum number of plies to
             search in the game tree before aborting
 
-        maximizing_player : bool
-            Flag indicating whether the current search depth corresponds to a
-            maximizing layer (True) or a minimizing layer (False)
-
         Returns
         -------
         (int, int)
@@ -215,40 +211,9 @@ class MinimaxPlayer(IsolationPlayer):
         """
         if self.time_left() < self.TIMER_THRESHOLD:
             raise SearchTimeout()
-            
-        # Get legal moves for active player
-        legal_moves = game.get_legal_moves()
 
-        # Game over terminal test
-        if not legal_moves:
-            # -inf or +inf from point of view of maximizing player
-            return game.utility(self), (-1, -1)
-
-        # Search depth reached terminal test
-        if depth == 0:
-            # Heuristic score from point of view of maximizing player
-            return self.score(game, self), (-1, -1)
-
-        best_move = None
-        if maximizing_player:
-            # Best for maximizing player is highest score
-            best_score = float("-inf")
-            for move in legal_moves:
-                # Forecast_move switches the active player
-                next_state = game.forecast_move(move)
-                score, _ = self.minimax(next_state, depth - 1, False)
-                if score > best_score:
-                    best_score, best_move = score, move
-        # Else minimizing player
-        else:
-            # Best for minimizing player is lowest score
-            best_score = float("inf")
-            for move in legal_moves:
-                next_state = game.forecast_move(move)
-                score, _ = self.minimax(next_state, depth - 1, True)
-                if score < best_score:
-                    best_score, best_move = score, move
-        return best_score, best_move
+        # TODO: finish this function!
+        raise NotImplementedError
 
 
 class AlphaBetaPlayer(IsolationPlayer):
@@ -289,23 +254,10 @@ class AlphaBetaPlayer(IsolationPlayer):
         """
         self.time_left = time_left
 
-        # Initialize the best move so that this function returns something
-        # in case the search fails due to timeout
-        best_move = (-1, -1)
+        # TODO: finish this function!
+        raise NotImplementedError
 
-        try:
-            # The try/except block will automatically catch the exception
-            # raised when the timer is about to expire.
-            return self.minimax(game, self.search_depth)
-
-        except SearchTimeout:
-            pass  # Handle any actions required after timeout as needed
-
-        # Return the best move from the last completed search iteration
-        return best_move
-
-
-    def alphabeta(self, game, depth, alpha=float("-inf"), beta=float("inf"), maximizing_player=True):
+    def alphabeta(self, game, depth, alpha=float("-inf"), beta=float("inf")):
         """Implement depth-limited minimax search with alpha-beta pruning as
         described in the lectures.
 
@@ -333,10 +285,6 @@ class AlphaBetaPlayer(IsolationPlayer):
         beta : float
             Beta limits the upper bound of search on maximizing layers
 
-        maximizing_player : bool
-            Flag indicating whether the current search depth corresponds to a
-            maximizing layer (True) or a minimizing layer (False)
-
         Returns
         -------
         (int, int)
@@ -357,53 +305,5 @@ class AlphaBetaPlayer(IsolationPlayer):
         if self.time_left() < self.TIMER_THRESHOLD:
             raise SearchTimeout()
 
-        # Get legal moves for active player
-        legal_moves = game.get_legal_moves()
-
-        # Game over terminal test
-        if not legal_moves:
-            # -inf or +inf from point of view of maximizing player
-            return game.utility(self), (-1, -1)
-
-        # Search depth reached terminal test
-        if depth == 0:
-            # Heuristic score from point of view of maximizing player
-            return self.score(game, self), (-1, -1)
-
-
-        # Alpha is the maximum lower bound of possible solutions
-        # Alpha is the highest score so far ("worst" highest score is -inf)
-        
-        # Beta is the minimum upper bound of possible solutions
-        # Beta is the lowest score so far ("worst" lowest score is +inf)
-
-        best_move = None
-        if maximizing_player:
-            # Best for maximizing player is highest score
-            best_score = float("-inf")
-            for move in legal_moves:
-                # Forecast_move switches the active player
-                next_state = game.forecast_move(move)
-                score, _ = self.alphabeta(next_state, depth - 1, alpha, beta, False)
-                if score > best_score:
-                    best_score, best_move = score, move
-                # Prune if possible
-                if best_score >= beta:
-                    return best_score, best_move
-                # Update alpha, if necessary
-                alpha = max(alpha, best_score)
-        # Else minimizing player
-        else:
-            # Best for minimizing player is lowest score
-            best_score = float("inf")
-            for move in legal_moves:
-                next_state = game.forecast_move(move)
-                score, _ = self.alphabeta(next_state, depth - 1, alpha, beta, True)
-                if score < best_score:
-                    best_score, best_move = score, move
-                # Prune if possible
-                if best_score <= alpha:
-                    return best_score, best_move
-                # Update beta, if necessary
-                beta = min(beta, best_score)
-        return best_score, best_move
+        # TODO: finish this function!
+        raise NotImplementedError
