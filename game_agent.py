@@ -376,4 +376,18 @@ class AlphaBetaPlayer(IsolationPlayer):
         
         # Beta is the minimum upper bound of possible solutions
         # Beta is the lowest score so far ("worst" lowest score is +inf)
-
+        best_move = None
+        if maximizing_player:
+            # Best for maximizing player is highest score
+            best_score = float("-inf")
+            for move in legal_moves:
+                # Forecast_move switches the active player
+                next_state = game.forecast_move(move)
+                score, _ = self.alphabeta(next_state, depth - 1, alpha, beta, False)
+                if score > best_score:
+                    best_score, best_move = score, move
+                # Prune if possible
+                if best_score >= beta:
+                    return best_score, best_move
+                # Update alpha, if necessary
+                alpha = max(alpha, best_score)
