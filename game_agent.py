@@ -9,6 +9,8 @@ class SearchTimeout(Exception):
     """Subclass base exception for code clarity. """
     pass
 
+def in_bounds(game, row, col):
+    return 0 <= row < game.height and 0 <= col < game.width
 
 def custom_score(game, player):
     """Calculate the heuristic value of a game state from the point of view
