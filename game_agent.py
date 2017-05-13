@@ -225,8 +225,8 @@ class MinimaxPlayer(IsolationPlayer):
             # Heuristic score from point of view of maximizing player
             return self.score(game, self), (-1, -1)
         
-         best_move = None
-         if maximizing_player:
+        best_move = None
+        if maximizing_player:
             # Best for maximizing player is highest score
             best_score = float("-inf")
             for move in legal_moves:
