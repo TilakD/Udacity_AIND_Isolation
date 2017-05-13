@@ -235,6 +235,18 @@ class MinimaxPlayer(IsolationPlayer):
                 score, _ = self.minimax(next_state, depth - 1, False)
                 if score > best_score:
                     best_score, best_move = score, move
+                    
+        # Else minimizing player
+        else:
+            # Best for minimizing player is lowest score
+            best_score = float("inf")
+            for move in legal_moves:
+                next_state = game.forecast_move(move)
+                score, _ = self.minimax(next_state, depth - 1, True)
+                if score < best_score:
+                    best_score, best_move = score, move
+        return best_move
+
 
 class AlphaBetaPlayer(IsolationPlayer):
     """Game-playing agent that chooses a move using iterative deepening minimax
