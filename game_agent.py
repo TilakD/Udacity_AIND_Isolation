@@ -391,3 +391,18 @@ class AlphaBetaPlayer(IsolationPlayer):
                     return best_score, best_move
                 # Update alpha, if necessary
                 alpha = max(alpha, best_score)
+        # Else minimizing player
+        else:
+            # Best for minimizing player is lowest score
+            best_score = float("inf")
+            for move in legal_moves:
+                next_state = game.forecast_move(move)
+                score, _ = self.alphabeta(next_state, depth - 1, alpha, beta, True)
+                if score < best_score:
+                    best_score, best_move = score, move
+                # Prune if possible
+                if best_score <= alpha:
+                    return best_score, best_move
+                # Update beta, if necessary
+                beta = min(beta, best_score)
+        return best_move
