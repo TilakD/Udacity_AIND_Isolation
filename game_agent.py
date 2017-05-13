@@ -34,8 +34,29 @@ def custom_score(game, player):
     float
         The heuristic value of the current game state to the specified player.
     """
-    # TODO: finish this function!
-    raise NotImplementedError
+    if game.is_loser(player):
+        return float("-inf")
+
+    if game.is_winner(player):
+        return float("inf")
+
+    bonus = 0.
+
+    center = (int(game.width/2), int(game.height/2))
+    r, c = center
+    directions = [(-1, -2), (-1, 2), (1, -2), (1, 2),
+                  (2, -1), (2, 1), (-2, -1), (-2, 1)]
+
+    off_center = [(r + dr, c + dc) for dr, dc in directions if in_bounds(game, r + dr, c + dc)]
+    player_location = game.get_player_location(player)
+    if player_location == center:
+        bonus = 1.5
+    elif player_location in off_center:
+            bonus = 0.5
+    own_moves = len(game.get_legal_moves(player))
+    opp_moves = len(game.get_legal_moves(game.get_opponent(player)))
+    return float(own_moves - opp_moves) + bonus
+
 
 
 def custom_score_2(game, player):
