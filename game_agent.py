@@ -357,5 +357,23 @@ class AlphaBetaPlayer(IsolationPlayer):
         if self.time_left() < self.TIMER_THRESHOLD:
             raise SearchTimeout()
 
-        # TODO: finish this function!
-        raise NotImplementedError
+        # Get legal moves for active player
+        legal_moves = game.get_legal_moves()
+
+        # Game over terminal test
+        if not legal_moves:
+            # -inf or +inf from point of view of maximizing player
+            return game.utility(self), (-1, -1)
+
+        # Search depth reached terminal test
+        if depth == 0:
+            # Heuristic score from point of view of maximizing player
+            return self.score(game, self), (-1, -1)
+
+
+        # Alpha is the maximum lower bound of possible solutions
+        # Alpha is the highest score so far ("worst" highest score is -inf)
+        
+        # Beta is the minimum upper bound of possible solutions
+        # Beta is the lowest score so far ("worst" lowest score is +inf)
+
