@@ -318,11 +318,9 @@ class AlphaBetaPlayer(IsolationPlayer):
         if not legal_moves:
             return (-1, -1)
         
-        
         try:
-            # The try/except block will automatically catch the exception
-            # raised when the timer is about to expire.
-            return self.alphabeta(game, self.search_depth)
+            for depth in range(100000000000):
+                best_move = self.alphabeta(game, depth)
 
         except SearchTimeout:
             pass  # Handle any actions required after timeout as needed
