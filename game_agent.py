@@ -248,27 +248,27 @@ class MinimaxPlayer(IsolationPlayer):
             # Heuristic score from point of view of maximizing player
             return self.score(game, self), (-1, -1)
         
-        best_move = None
-        if maximizing_player:
-            # Best for maximizing player is highest score
-            best_score = float("-inf")
-            for move in legal_moves:
-                # Forecast_move switches the active player
-                next_state = game.forecast_move(move)
+        best_move = (-1,-1)
+        
+        # Best for maximizing player is highest score
+        best_score = float('-inf') if maximizing_player else float('inf')
+        
+        for move in legal_moves:
+            # Forecast_move switches the active player
+            next_state = game.forecast_move(move)   
+            
+            if maximizing_player:
                 score, _ = self.minimax(next_state, depth - 1, False)
                 if score > best_score:
                     best_score, best_move = score, move
-                    
-        # Else minimizing player
-        else:
-            # Best for minimizing player is lowest score
-            best_score = float("inf")
-            for move in legal_moves:
-                next_state = game.forecast_move(move)
+                        
+            # Else minimizing player
+            else:
                 score, _ = self.minimax(next_state, depth - 1, True)
                 if score < best_score:
                     best_score, best_move = score, move
-        return best_move
+                    
+        return best_score,best_move
 
 
 class AlphaBetaPlayer(IsolationPlayer):
