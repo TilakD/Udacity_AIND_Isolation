@@ -447,7 +447,7 @@ class AlphaBetaPlayer(IsolationPlayer):
         
         # Beta is the minimum upper bound of possible solutions
         # Beta is the lowest score so far ("worst" lowest score is +inf)
-        best_move = None
+        best_move = (-1,-1)
         if maximizing_player:
             # Best for maximizing player is highest score
             best_score = float("-inf")
