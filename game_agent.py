@@ -319,14 +319,15 @@ class AlphaBetaPlayer(IsolationPlayer):
             return (-1, -1)
         
         try:
-            for depth in range(100000000000):
-                best_move = self.alphabeta(game, depth)
-
+            depth = 1
+            while time_left() > self.TIMER_THRESHOLD:
+                best_move = self.alphabeta(game, depth, alpha=float("-inf"), beta=float("inf"))
+                depth += 1
+            return best_move
+                
         except SearchTimeout:
-            pass  # Handle any actions required after timeout as needed
-
-        # Return the best move from the last completed search iteration
-        return best_move
+            # Handle any actions required at timeout, if necessary
+            return best_move
 
     def alphabeta(self, game, depth, alpha=float("-inf"), beta=float("inf"), maximizing_player=True):
         """Implement depth-limited minimax search with alpha-beta pruning as
