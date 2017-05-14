@@ -249,26 +249,26 @@ class MinimaxPlayer(IsolationPlayer):
             return self.score(game, self), (-1, -1)
         
         best_move = (-1,-1)
-        
-        # Best for maximizing player is highest score
-        best_score = float('-inf') if maximizing_player else float('inf')
-        
-        for move in legal_moves:
-            # Forecast_move switches the active player
-            next_state = game.forecast_move(move)   
-            
-            if maximizing_player:
+        if maximizing_player:
+            # Best for maximizing player is highest score
+            best_score = float("-inf")
+            for move in legal_moves:
+                # Forecast_move switches the active player
+                next_state = game.forecast_move(move)
                 score, _ = self.minimax(next_state, depth - 1, False)
                 if score > best_score:
                     best_score, best_move = score, move
-                        
-            # Else minimizing player
-            else:
+                    
+        # Else minimizing player
+        else:
+            # Best for minimizing player is lowest score
+            best_score = float("inf")
+            for move in legal_moves:
+                next_state = game.forecast_move(move)
                 score, _ = self.minimax(next_state, depth - 1, True)
                 if score < best_score:
                     best_score, best_move = score, move
-                    
-        return best_score,best_move
+        return best_move
 
 
 class AlphaBetaPlayer(IsolationPlayer):
@@ -313,10 +313,12 @@ class AlphaBetaPlayer(IsolationPlayer):
         """
         self.time_left = time_left
 
-        # Initialize the best move so that this function returns something
-        # in case the search fails due to timeout
-        best_move = (-1, -1)
-
+        legal_moves = game.get_legal_moves()
+        
+        if not legal_moves:
+            return (-1, -1)
+        
+        
         try:
             # The try/except block will automatically catch the exception
             # raised when the timer is about to expire.
