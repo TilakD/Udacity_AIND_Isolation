@@ -52,7 +52,7 @@ def custom_score(game, player):
     own_moves = len(game.get_legal_moves(player))
     opp_moves = len(game.get_legal_moves(game.get_opponent(player)))
     
-    return own_moves**2 - 1.5*opp_moves**2
+    return own_moves**2 - 2*opp_moves**2
 
 
 def custom_score_2(game, player):
@@ -80,8 +80,6 @@ def custom_score_2(game, player):
     """
     Maximize the distance between the player and the opponent.
     This strategy is basically to run away from the opponent.
-    Returns the absolute difference between the sum of the location vectors,
-    
     """
     
     if game.is_loser(player):
@@ -478,12 +476,8 @@ class AlphaBetaPlayer(IsolationPlayer):
             score = self.max_value(game.forecast_move(move), depth - 1, alpha, beta)
             if score < best_score:
                 best_score = score
-
-            # Prune?
             if best_score <= alpha:
                 return best_score
-
-            # Update beta?
             beta = min(beta, best_score)
         return best_score
 
@@ -500,11 +494,7 @@ class AlphaBetaPlayer(IsolationPlayer):
             score = self.min_value(game.forecast_move(move), depth - 1, alpha, beta)
             if score > best_score:
                 best_score = score
-
-            # Prune?
             if best_score >= beta:
                 return best_score
-
-            # Update alpha?
             alpha = max(alpha, best_score)
         return best_score
