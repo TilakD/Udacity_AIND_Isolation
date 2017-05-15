@@ -462,12 +462,7 @@ class AlphaBetaPlayer(IsolationPlayer):
         
         best_move = (-1, -1)
         best_score = float("-inf")
-        
-        # Alpha is the maximum lower bound of possible solutions
-        # Alpha is the highest score so far ("worst" highest score is -inf)
-        
-        # Beta is the minimum upper bound of possible solutions
-        # Beta is the lowest score so far ("worst" lowest score is +inf)
+    
         for move in legal_moves:
             score = self.minVal(game.forecast_move(move), depth - 1, alpha, beta)
             
