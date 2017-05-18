@@ -50,9 +50,9 @@ def custom_score(game, player):
         return float("inf")
     
     own_moves = len(game.get_legal_moves(player))
-    opp_moves = len(game.get_legal_moves(game.get_opponent(player)))
+    opponent_moves = len(game.get_legal_moves(game.get_opponent(player)))
     
-    return (own_moves**2 - 1.5*opp_moves**2)
+    return (own_moves**2 - 1.5*opponent_moves**2)
 
 
 def custom_score_2(game, player):
@@ -88,15 +88,15 @@ def custom_score_2(game, player):
     if game.is_winner(player):
         return float("inf")
     
-    opp_location = game.get_player_location(game.get_opponent(player))
-    if opp_location == None:
+    opponent_location = game.get_player_location(game.get_opponent(player))
+    if opponent_location == None:
         return 0
     
     own_location = game.get_player_location(player)
     if own_location == None:
         return 0
     
-    return float(abs(sum(opp_location) - sum(own_location)))
+    return float(abs(sum(opponent_location) - sum(own_location)))
 
 
 def custom_score_3(game, player):
@@ -125,8 +125,8 @@ def custom_score_3(game, player):
     This heuristic function is based on the number of legal moves available
     and each player's distance to the center of the board.
     
-    10* (own_moves - opp_moves) + (own_distance_x + own_distance_y) -
-    (opp_distance_x + opp_distance_y)
+    10* (own_moves - opponent_moves) + (own_distance_x + own_distance_y) -
+    (opponent_distance_x + opponent_distance_y)
     
     This calculates the sum of the absolute number of squares from the player's
     position to the center of the board along x and y axes.
@@ -143,19 +143,19 @@ def custom_score_3(game, player):
     center = game.width/2
     
     own_position = game.get_player_location(player)
-    opp_position = game.get_player_location(game.get_opponent(player))
+    opponent_position = game.get_player_location(game.get_opponent(player))
     
     own_moves = len(game.get_legal_moves(player))
-    opp_moves = len(game.get_legal_moves(game.get_opponent(player)))
+    opponent_moves = len(game.get_legal_moves(game.get_opponent(player)))
     
     own_distance_x = abs(center - own_position[0])
     own_distance_y = abs(center - own_position[1])
     
-    opp_distance_x = abs(center - opp_position[0])
-    opp_distance_y = abs(center - opp_position[1])
+    opponent_distance_x = abs(center - opponent_position[0])
+    opponent_distance_y = abs(center - opponent_position[1])
     
-    return float(10* (own_moves - opp_moves) + (own_distance_x + own_distance_y) -
-                 (opp_distance_x + opp_distance_y))
+    return float(10* (own_moves - opponent_moves) + (own_distance_x + own_distance_y) -
+                 (opponent_distance_x + opponent_distance_y))
 
 
 class IsolationPlayer:
@@ -390,7 +390,6 @@ class AlphaBetaPlayer(IsolationPlayer):
             return best_move
                 
         except SearchTimeout:
-            # Handle any actions required at timeout, if necessary
             return best_move
 
     def alphabeta(self, game, depth, alpha=float("-inf"), beta=float("inf"), maximizing_player=True):
